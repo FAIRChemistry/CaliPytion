@@ -1,24 +1,25 @@
 import sdRDM
 
 from typing import List, Optional
-from pydantic import Field, PrivateAttr
+from pydantic import Field
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
-from pydantic import PositiveFloat
 from datetime import date as Date
+from pydantic import PositiveFloat
 
-from .spectrum import Spectrum
 from .standard import Standard
-from .concentrationunit import ConcentrationUnit
 from .temperatureunit import TemperatureUnit
-from .series import Series
+from .concentrationunit import ConcentrationUnit
 from .device import Device
+from .spectrum import Spectrum
 from .model import Model
+from .series import Series
 
 
 @forge_signature
 class Analyte(sdRDM.DataModel):
+
     """"""
 
     id: Optional[str] = Field(
@@ -29,17 +30,17 @@ class Analyte(sdRDM.DataModel):
 
     name: Optional[str] = Field(
         default=None,
-        description="Name of the analyte",
+        description="Name of the species",
     )
 
     inchi: Optional[str] = Field(
         default=None,
-        description="InChi code of the analyte",
+        description="InChi code of the species",
     )
 
     smiles: Optional[str] = Field(
         default=None,
-        description="Smiles code of the analyte",
+        description="Smiles code of the species",
     )
 
     ph: Optional[PositiveFloat] = Field(
@@ -68,25 +69,20 @@ class Analyte(sdRDM.DataModel):
     )
 
     standard: List[Standard] = Field(
-        description="Standard data of the analyte",
+        description="Standard data of the species",
         default_factory=ListPlus,
         multiple=True,
     )
 
     spectrum: Optional[Spectrum] = Field(
         default=Spectrum(),
-        description="Spectrum data of the analyte",
-    )
-
-    __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/FAIRChemistry/CaliPytion.git"
-    )
-    __commit__: Optional[str] = PrivateAttr(
-        default="0afa0b34e4855e938b7282d485b3fd947bc4b7fe"
+        description="Spectrum data of the species",
     )
 
     def add_to_standard(
         self,
+        species_id: Optional[str] = None,
+        species_name: Optional[str] = None,
         wavelength: Optional[float] = None,
         concentration: List[float] = ListPlus(),
         concentration_unit: Optional[ConcentrationUnit] = None,
@@ -99,6 +95,8 @@ class Analyte(sdRDM.DataModel):
 
         Args:
             id (str): Unique identifier of the 'Standard' object. Defaults to 'None'.
+            species_id (): Species ID of the standard. Defaults to None
+            species_name (): Species name of the standard. Defaults to None
             wavelength (): Detection wavelength in nm. Defaults to None
             concentration (): Concentration of the reactant. Defaults to ListPlus()
             concentration_unit (): Concentration unit. Defaults to None
@@ -107,6 +105,8 @@ class Analyte(sdRDM.DataModel):
         """
 
         params = {
+            "species_id": species_id,
+            "species_name": species_name,
             "wavelength": wavelength,
             "concentration": concentration,
             "concentration_unit": concentration_unit,

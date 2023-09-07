@@ -31,6 +31,8 @@ classDiagram
     }
     
     class Standard {
+        +string species_id
+        +string species_name
         +float wavelength
         +float[0..*] concentration
         +ConcentrationUnit concentration_unit

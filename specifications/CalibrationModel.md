@@ -8,13 +8,13 @@ Data model for (meta) data of spectrophotometric standard curves and absorption 
 
 - name
   - Type: string
-  - Description: Name of the analyte
+  - Description: Name of the species
 - inchi
   - Type: string
-  - Description: InChi code of the analyte
+  - Description: InChi code of the species
 - smiles
   - Type: string
-  - Description: Smiles code of the analyte
+  - Description: Smiles code of the species
 - ph
   - Type: PositiveFloat
   - Description: pH of solution.
@@ -32,11 +32,11 @@ Data model for (meta) data of spectrophotometric standard curves and absorption 
   - Description: Device object, containing information about the analytic device
 - standard
   - Type: Standard
-  - Description: Standard data of the analyte
+  - Description: Standard data of the species
   - Multiple: True
 - spectrum
   - Type: Spectrum
-  - Description: Spectrum data of the analyte 
+  - Description: Spectrum data of the species 
 
 
 ### Device
@@ -55,6 +55,12 @@ Data model for (meta) data of spectrophotometric standard curves and absorption 
 
 Description of a standard curve for an analyte
 
+- species_id
+  - Type: string
+  - Description: Species ID of the standard
+- species_name
+  - Type: string
+  - Description: Species name of the standard
 - wavelength
   - Type: float
   - Description: Detection wavelength in nm

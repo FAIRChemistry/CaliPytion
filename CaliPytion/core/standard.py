@@ -1,24 +1,35 @@
 import sdRDM
 
 from typing import List, Optional
-from pydantic import Field, PrivateAttr
+from pydantic import Field
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 
 from .concentrationunit import ConcentrationUnit
-from .series import Series
 from .model import Model
+from .series import Series
 
 
 @forge_signature
 class Standard(sdRDM.DataModel):
+
     """Description of a standard curve for an analyte"""
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("standardINDEX"),
         xml="@id",
+    )
+
+    species_id: Optional[str] = Field(
+        default=None,
+        description="Species ID of the standard",
+    )
+
+    species_name: Optional[str] = Field(
+        default=None,
+        description="Species name of the standard",
     )
 
     wavelength: Optional[float] = Field(
@@ -51,13 +62,6 @@ class Standard(sdRDM.DataModel):
         description=(
             "information on the model, which was used for concentration determination"
         ),
-    )
-
-    __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/FAIRChemistry/CaliPytion.git"
-    )
-    __commit__: Optional[str] = PrivateAttr(
-        default="0afa0b34e4855e938b7282d485b3fd947bc4b7fe"
     )
 
     def add_to_absorption(
