@@ -1,4 +1,4 @@
-# CaliPytion - Tool to create, apply and document calibration models for concentration calculation
+# CaliPytion - Tool to create, apply, and document calibration models for concentration calculation
 
 [![Documentation](https://img.shields.io/badge/Documentation-Online-blue.svg)](https://fairchemistry.github.io/CaliPytion/)
 [![Tests](https://github.com/FAIRChemistry/CaliPytion/actions/workflows/tests.yaml/badge.svg)](https://github.com/FAIRChemistry/CaliPytion/actions/workflows/tests.yaml)
@@ -7,19 +7,19 @@
 ## Overview
 
 
-CaliPytion is a Python package for the creation, application, and documentation of calibration models for concentration calculations from a measured standard. This package allows comparing different calibration models and selecting the best one based on various statistical metrics like R<sup>2</sup>, AIC, or RMSD. The selected model can then be used to calculate the concentration of unknown samples from their measured signals. Furthermore, the calibration standard containing the calibration model as well as information on the used substance and measurement conditions can be exported in JSON and [AnIML](https://www.animl.org/) format for reuse and documentation.
+CaliPytion is a Python package for the creation, application, and documentation of calibration models for concentration calculations from a measured standard. This package allows for comparing different calibration models and selecting the best one based on various statistical metrics like R<sup>2</sup>, AIC, or RMSD. The selected model can then calculate the concentration of unknown samples from their measured signals. Furthermore, the calibration standard containing the calibration model and information on the used substance and measurement conditions can be exported in JSON and [AnIML](https://www.animl.org/) format for reuse and documentation.
 
 ## Key Functionalities
 
-📈 __Model Fitting and Visualization__:  
-Automatically fits different polynomial models to the data and provides interactive plots for visual comparison of these models.
-🎯 __Model Selection__:  
-A model overview is generated after fitting, allowing the user to select the best model based on the desired metric.
-🚷 __Avoid Extrapolation__:  
-Prevents the use of models outside the calibrated concentration range. By user choice, the model can be extrapolated to calculate concentrations outside the calibration range.  
-🧪 __Compatible with EnzymeML Documents__:  
+- 📈 __Model Fitting and Visualization__:  
+Automatically fits different polynomial models to the data and provides interactive plots for visually comparing these models.
+- 🎯 __Model Selection__:  
+After fitting, a model overview is generated, allowing the user to select the best model based on the desired metric.
+- 🚷 __Avoid Extrapolation__:  
+It prevents the use of models outside the calibrated concentration range. However, by user choice, the model can be extrapolated to calculate concentrations outside the calibration range.  
+- 🧪 __Compatible with EnzymeML Documents__:  
 CaliPytion can be used to convert the measured signals of an EnzymeML document into concentrations.  
-📂 __FAIR Data__:  
+- 📂 __FAIR Data__:  
 Calibration models are stored together with the standard data. Constituting a complete record of the calibration process, this data can be saved as a JSON or AnIML file. 
 
 ## Installation
