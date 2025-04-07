@@ -1,6 +1,5 @@
 ---
 repo: "https://github.com/FAIRChemistry/CaliPytion"
-prefix: "calipy"
 ---
 
 # Calibration Data Model
@@ -9,13 +8,16 @@ This data model structures data of standard measurements of a molecule.
 
 ## Root objects
 
-### Standard
+### Calibration
 
-The `Standard` contains information on the molecule for which the calibration was performed, its standard measurements, measurement conditions, as well as the fitted calibration model.
+The Calibration contains information on the molecule for which the calibration was performed, its measurements alongside measurement conditions, and the fitted calibration model.
 
+- **calibration_id**
+  - Type: string
+  - Description: Unique identifier of the calibration.
 - **molecule_id**
   - Type: string
-  - Description: Short ID how the molecule should be referenced in equations. E.g. `s1`.
+  - Description: Short ID how the molecule should be referenced in equations. E.g., s1.
 - **pubchem_cid**
   - Type: integer
   - Description: PubChem Compound Identifier.
@@ -33,20 +35,20 @@ The `Standard` contains information on the molecule for which the calibration wa
   - Description: Temperature unit.
 - retention_time
   - Type: float
-  - Description: Retention time of the molecule in minutes.
+  - Description: The retention time of the molecule in minutes.
 - wavelength
   - Type: float
   - Description: Detection wavelength in nm.
 - samples
   - Type: Sample[]
-  - Description: Measured signal, at a given concentration of the molecule.
+  - Description: Measured signal at a given concentration of the molecule.
 - result
   - Type: CalibrationModel
   - Description: The model that was used for concentration determination.
 
 ### Sample
 
-A `Sample` describes individual measured signal-concentration pairs of a molecule.
+A Sample describes individual measured signal-concentration pairs of a molecule.
 
 - **concentration**
   - Type: float
@@ -60,7 +62,7 @@ A `Sample` describes individual measured signal-concentration pairs of a molecul
 
 ### CalibrationModel
 
-The `CalibrationModel` describes the calibration model which was fitted to the calibration data. The calibration model consists of the signal law and parameters of the equation. The calibration range defines the concentration and signal bounds in which the calibration model is valid.
+The CalibrationModel describes the calibration model fitted to the calibration data. The calibration model consists of the signal law and equation parameters. The calibration range defines the concentration and signal bounds in which the calibration model is valid.
 
 - **name**
   - Type: string
@@ -87,7 +89,7 @@ The `CalibrationModel` describes the calibration model which was fitted to the c
 
 ### CalibrationRange
 
-THe `CalibrationRange` defines the concentration and signal bounds in which the calibration model is valid.
+The CalibrationRange defines the concentration and signal bounds in which the calibration model is valid.
 
 - **conc_lower**
   - Type: float
@@ -117,11 +119,11 @@ The `FitStatistics` contains statistical parameters of the fitted calibration mo
   - Description: Coefficient of determination.
 - rmsd
   - Type: float
-  - Description: Root mean square deviation.
+  - Description: Root mean square deviation between model and measurement data.
 
 ### Parameter
 
-A `Parameter` describes the value, standard error, and bounds of a parameter which is part of the signal law.
+A Parameter describes a parameter's value, standard error, and bounds, which is part of the signal law.
 
 - symbol
   - Type: string
@@ -137,7 +139,7 @@ A `Parameter` describes the value, standard error, and bounds of a parameter whi
   - Description: 1-sigma standard error of the parameter.
 - lower_bound
   - Type: float
-  - Description: Lower bound of the parameter prior to fitting.
+  - Description: Lower bound of the parameter before fitting.
 - upper_bound
   - Type: float
-  - Description: Upper bound of the parameter prior to fitting.
+  - Description: Upper bound of the parameter before fitting.

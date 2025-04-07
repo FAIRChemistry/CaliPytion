@@ -139,9 +139,9 @@ class Calibrator(BaseModel):
     ) -> CalibrationModel:
         """Add a model to the list of models used for calibration."""
 
-        assert (
-            self.molecule_id in signal_law
-        ), f"Equation must contain the symbol of the molecule to be calibrated ('{self.molecule_id}')"
+        assert self.molecule_id in signal_law, (
+            f"Equation must contain the symbol of the molecule to be calibrated ('{self.molecule_id}')"
+        )
 
         model = CalibrationModel(
             molecule_id=self.molecule_id,
@@ -258,8 +258,8 @@ class Calibrator(BaseModel):
         assert self.standard.result, "No model found in the standard object."
 
         converted_count = 0
-        for measurement in enzmldoc.measurements:
-            for measured_species in measurement.species_data:
+        for meas_idx, measurement in enumerate(enzmldoc.measurements):
+            for spec_idx, measured_species in enumerate(measurement.species_data):
                 if measured_species.species_id == self.molecule_id:
                     assert measured_species.data_type != DataTypes.CONCENTRATION, """
                         The data seems to be already in concentration values.
@@ -271,9 +271,16 @@ class Calibrator(BaseModel):
                     """
 
                     signals = measured_species.data
-                    measured_species.data = self.calculate_concentrations(
+                    concentrations = self.calculate_concentrations(
                         self.standard.result, signals, extrapolate
                     )
+                    enzmldoc.measurements[meas_idx].species_data[
+                        spec_idx
+                    ].data = concentrations
+                    enzmldoc.measurements[meas_idx].species_data[
+                        spec_idx
+                    ].initial = concentrations[0]
+
                     measured_species.data_type = DataTypes.CONCENTRATION
 
                     converted_count += 1
@@ -314,9 +321,9 @@ class Calibrator(BaseModel):
         """Updates the model of the standard object with the given model."""
 
         assert self.standard, "No standard object found."
-        assert (
-            self.molecule_id == self.standard.molecule_id
-        ), "The molecule id of the Calibrator and the Standard object must be the same."
+        assert self.molecule_id == self.standard.molecule_id, (
+            "The molecule id of the Calibrator and the Standard object must be the same."
+        )
 
         self.standard.result = model
 
@@ -328,7 +335,7 @@ class Calibrator(BaseModel):
         conc_unit: UnitDefinition,
         pubchem_cid: int,
         concentration_column_name: str,
-        molecule_name: str | None = None,
+        molecule_name: str,
         cutoff: Optional[float] = None,
         wavelength: Optional[float] = None,
     ):
@@ -604,9 +611,9 @@ class Calibrator(BaseModel):
         console.print(table)
 
     def visualize(self) -> None:
-        assert any(
-            [model.was_fitted for model in self.models]
-        ), "No model has been fitted yet. Run 'fit_models' first."
+        assert any([model.was_fitted for model in self.models]), (
+            "No model has been fitted yet. Run 'fit_models' first."
+        )
 
         """
         Visualizes the calibration curve and the residuals of the models.
@@ -908,9 +915,9 @@ class Calibrator(BaseModel):
             show (bool): Whether to display the plot. Set to False when using in notebooks.
                         Defaults to True.
         """
-        assert any(
-            [model.was_fitted for model in self.models]
-        ), "No model has been fitted yet. Run 'fit_models' first."
+        assert any([model.was_fitted for model in self.models]), (
+            "No model has been fitted yet. Run 'fit_models' first."
+        )
 
         import matplotlib.pyplot as plt
 
