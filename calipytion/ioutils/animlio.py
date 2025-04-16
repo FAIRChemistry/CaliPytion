@@ -44,7 +44,6 @@ def get_animl_document():
     Returns:
         AnIML: An AnIML document object.
     """
-    print(animl.lib.AnIML)
     return animl.lib.AnIML()
 
 
