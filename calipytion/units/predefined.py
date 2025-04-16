@@ -53,12 +53,22 @@ class Unit:
         return BaseUnit(kind=UnitType.DIMENSIONLESS, exponent=1, scale=1)
 
 
-###### Single Prefixes ######
+# Instead of direct assignments, use functions to get prefixes
+def get_k():
+    return Prefix.k
 
-k = Prefix.k
-m = Prefix.m
-u = Prefix.u
-n = Prefix.n
+
+def get_m():
+    return Prefix.m
+
+
+def get_u():
+    return Prefix.u
+
+
+def get_n():
+    return Prefix.n
+
 
 ##### Predefined units #####
 
@@ -67,9 +77,9 @@ dimensionless = UnitDefinition(base_units=[Unit.dimensionless()])
 
 # Molarity
 M = Unit.mol() / Unit.litre()
-mM = m * Unit.mol() / Unit.litre()
-uM = u * Unit.mol() / Unit.litre()
-nM = n * Unit.mol() / Unit.litre()
+mM = get_m() * Unit.mol() / Unit.litre()
+uM = get_u() * Unit.mol() / Unit.litre()
+nM = get_n() * Unit.mol() / Unit.litre()
 
 ## Ontology
 M.ld_id = ONTOMAPS["molarity"]["M"]
@@ -79,9 +89,9 @@ nM.ld_id = ONTOMAPS["molarity"]["nM"]
 
 # Substance
 mol = UnitDefinition(base_units=[Unit.mol()])._get_name()
-mmol = UnitDefinition(base_units=[m * Unit.mol()])._get_name()
-umol = UnitDefinition(base_units=[u * Unit.mol()])._get_name()
-nmol = UnitDefinition(base_units=[n * Unit.mol()])._get_name()
+mmol = UnitDefinition(base_units=[get_m() * Unit.mol()])._get_name()
+umol = UnitDefinition(base_units=[get_u() * Unit.mol()])._get_name()
+nmol = UnitDefinition(base_units=[get_n() * Unit.mol()])._get_name()
 
 ## Ontology
 mol.ld_id = ONTOMAPS["substance"]["mol"]
@@ -92,10 +102,10 @@ nmol.ld_id = ONTOMAPS["substance"]["nmol"]
 # Mass
 gram = UnitDefinition(base_units=[Unit.gram()])._get_name()
 g = UnitDefinition(base_units=[Unit.gram()])._get_name()
-mg = UnitDefinition(base_units=[m * Unit.gram()])._get_name()
-ug = UnitDefinition(base_units=[u * Unit.gram()])._get_name()
-ng = UnitDefinition(base_units=[n * Unit.gram()])._get_name()
-kg = UnitDefinition(base_units=[k * Unit.gram()])._get_name()
+mg = UnitDefinition(base_units=[get_m() * Unit.gram()])._get_name()
+ug = UnitDefinition(base_units=[get_u() * Unit.gram()])._get_name()
+ng = UnitDefinition(base_units=[get_n() * Unit.gram()])._get_name()
+kg = UnitDefinition(base_units=[get_k() * Unit.gram()])._get_name()
 
 ## Ontology
 g.ld_id = ONTOMAPS["mass"]["g"]
@@ -107,9 +117,9 @@ ng.ld_id = ONTOMAPS["mass"]["ng"]
 # Volume
 litre = UnitDefinition(base_units=[Unit.litre()])._get_name()
 l = UnitDefinition(base_units=[Unit.litre()])._get_name()  # noqa: E741
-ml = UnitDefinition(base_units=[m * Unit.litre()])._get_name()
-ul = UnitDefinition(base_units=[u * Unit.litre()])._get_name()
-nl = UnitDefinition(base_units=[n * Unit.litre()])._get_name()
+ml = UnitDefinition(base_units=[get_m() * Unit.litre()])._get_name()
+ul = UnitDefinition(base_units=[get_u() * Unit.litre()])._get_name()
+nl = UnitDefinition(base_units=[get_n() * Unit.litre()])._get_name()
 
 ## Ontology
 
@@ -123,7 +133,6 @@ nl.ld_id = ONTOMAPS["volume"]["nl"]
 second = UnitDefinition(base_units=[Unit.second()])._get_name()
 s = UnitDefinition(base_units=[Unit.second()])._get_name()
 minute = UnitDefinition(base_units=[Unit.minute()])._get_name()
-min = UnitDefinition(base_units=[Unit.minute()])._get_name()
 hour = UnitDefinition(base_units=[Unit.hour()])._get_name()
 h = UnitDefinition(base_units=[Unit.hour()])._get_name()
 day = UnitDefinition(base_units=[Unit.day()])._get_name()
@@ -133,7 +142,6 @@ d = UnitDefinition(base_units=[Unit.day()])._get_name()
 s.ld_id = ONTOMAPS["time"]["s"]
 second.ld_id = ONTOMAPS["time"]["s"]
 minute.ld_id = ONTOMAPS["time"]["min"]
-min.ld_id = ONTOMAPS["time"]["min"]
 hour.ld_id = ONTOMAPS["time"]["hour"]
 h.ld_id = ONTOMAPS["time"]["hour"]
 day.ld_id = ONTOMAPS["time"]["day"]

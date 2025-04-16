@@ -5,6 +5,7 @@ import logging
 import warnings
 from typing import Any, Optional
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import plotly.express as px
@@ -358,7 +359,7 @@ class Calibrator(BaseModel):
 
         df = pd.read_csv(path)
 
-        conc_values = df[concentration_column_name].values
+        conc_values = df[concentration_column_name].values.tolist()
         all_other_columns = df.columns.drop(concentration_column_name)
         signals_matrix = df[all_other_columns].values
         signals = signals_matrix.flatten()
@@ -810,6 +811,7 @@ class Calibrator(BaseModel):
         return fig.show(config=config)
 
     def _traces_from_standard(self, fig: go.Figure):
+        assert self.standard, "Standard not set."
         for sample in self.standard.samples:
             if not hasattr(sample, "id"):
                 sample_id = f"Sample {self.standard.samples.index(sample) + 1}"
@@ -908,7 +910,7 @@ class Calibrator(BaseModel):
             self.concentrations = [self.concentrations[idx] for idx in below_cutoff_idx]
             self.signals = [self.signals[idx] for idx in below_cutoff_idx]
 
-    def visualize_static(self, show: bool = True) -> None:
+    def visualize_static(self, show: bool = True) -> plt.figure:
         """Creates a static visualization of the calibration curve and residuals using matplotlib.
 
         Args:
@@ -918,8 +920,6 @@ class Calibrator(BaseModel):
         assert any([model.was_fitted for model in self.models]), (
             "No model has been fitted yet. Run 'fit_models' first."
         )
-
-        import matplotlib.pyplot as plt
 
         # Create figure with two subplots
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
@@ -943,7 +943,7 @@ class Calibrator(BaseModel):
 
             # Calculate model predictions
             params = {param.symbol: param.value for param in model.parameters}
-            params[model.molecule_id] = smooth_x
+            params[model.molecule_id] = smooth_x.tolist()
             model_pred = fitter.lmfit_model.eval(**params)
 
             # Plot model line
