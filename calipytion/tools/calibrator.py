@@ -943,7 +943,7 @@ class Calibrator(BaseModel):
 
             # Calculate model predictions
             params = {param.symbol: param.value for param in model.parameters}
-            params[model.molecule_id] = smooth_x.tolist()
+            params[model.molecule_id] = smooth_x
             model_pred = fitter.lmfit_model.eval(**params)
 
             # Plot model line
