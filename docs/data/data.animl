@@ -361,14 +361,14 @@
             <S>a * s0 ** 3 + b * s0 ** 2 + c * s0 + d</S>
           </Parameter>
           <Category name="Model Parameters">
-            <Parameter name="b" parameterType="float">
-              <F>0.05644586682319641</F>
+            <Parameter name="d" parameterType="float">
+              <F>0.020242556929588318</F>
             </Parameter>
             <Parameter name="Initial value" parameterType="float">
               <F>1.0</F>
             </Parameter>
             <Parameter name="Standard error" parameterType="float">
-              <F>0.049199585089788646</F>
+              <F>0.026544516917497766</F>
             </Parameter>
             <Parameter name="Lower bound" parameterType="float">
               <F>-100000000.0</F>
@@ -391,14 +391,14 @@
             <Parameter name="Upper bound" parameterType="float">
               <F>100000000.0</F>
             </Parameter>
-            <Parameter name="d" parameterType="float">
-              <F>0.020242556929588318</F>
+            <Parameter name="b" parameterType="float">
+              <F>0.05644586682319641</F>
             </Parameter>
             <Parameter name="Initial value" parameterType="float">
               <F>1.0</F>
             </Parameter>
             <Parameter name="Standard error" parameterType="float">
-              <F>0.026544516917497766</F>
+              <F>0.049199585089788646</F>
             </Parameter>
             <Parameter name="Lower bound" parameterType="float">
               <F>-100000000.0</F>

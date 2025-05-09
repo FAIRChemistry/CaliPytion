@@ -55,6 +55,7 @@ def test_conversion_of_enzymeml_doc():
         4.0,
     ]
     assert math.isnan(doc.measurements[1].species_data[0].data[0])
+    assert approx(doc.measurements[0].species_data[0].initial, abs=0.01) == 30
 
 
 def test_conversion_of_enzymeml_doc_extrapolate():
