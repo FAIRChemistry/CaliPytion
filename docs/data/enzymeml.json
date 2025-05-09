@@ -134,7 +134,7 @@
                             "schema": "https://schema.org/"
                         }
                     },
-                    "data_type": "http://purl.allotrope.org/ontologies/quality#AFQ_0000061",
+                    "data_type": "absorbance",
                     "prepared": 0.5,
                     "data": [
                         3.0,
@@ -240,7 +240,7 @@
                             "schema": "https://schema.org/"
                         }
                     },
-                    "data_type": "http://purl.obolibrary.org/obo/PATO_0000033",
+                    "data_type": "absorbance",
                     "prepared": 0.5,
                     "data": [],
                     "time": [],
@@ -333,7 +333,7 @@
                             "schema": "https://schema.org/"
                         }
                     },
-                    "data_type": "http://purl.allotrope.org/ontologies/quality#AFQ_0000061",
+                    "data_type": "absorbance",
                     "prepared": 1.0,
                     "data": [
                         2.9,
@@ -439,7 +439,7 @@
                             "schema": "https://schema.org/"
                         }
                     },
-                    "data_type": "http://purl.obolibrary.org/obo/PATO_0000033",
+                    "data_type": "absorbance",
                     "prepared": 1.0,
                     "data": [],
                     "time": [],
