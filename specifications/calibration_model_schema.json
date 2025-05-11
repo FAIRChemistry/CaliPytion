@@ -53,7 +53,7 @@
       "title": "temp_unit",
       "type": "object",
       "description": "Temperature unit.",
-      "$ref": "#/$defs/UnitDefinition"
+      "$ref": "#/$defs/UnitDefinitionAnnot"
     },
     "temperature": {
       "title": "temperature",
@@ -262,7 +262,7 @@
           "title": "conc_unit",
           "type": "object",
           "description": "Concentration unit.",
-          "$ref": "#/$defs/UnitDefinition"
+          "$ref": "#/$defs/UnitDefinitionAnnot"
         },
         "concentration": {
           "title": "concentration",
@@ -282,8 +282,8 @@
       ],
       "additionalProperties": false
     },
-    "UnitDefinition": {
-      "title": "UnitDefinition",
+    "UnitDefinitionAnnot": {
+      "title": "UnitDefinitionAnnot",
       "type": "object",
       "description": "Represents a unit definition that is based on the SI unit system.",
       "properties": {

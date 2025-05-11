@@ -5,8 +5,7 @@ import pytest
 from devtools import pprint
 
 from calipytion import Calibrator
-from calipytion.model import CalibrationModel, Parameter, Sample, Standard
-from calipytion.units import C, mM
+from calipytion.model import Calibration, CalibrationModel, Parameter, Sample
 
 dummy_calibration = {
     "pubchem_cid": 887,
@@ -14,13 +13,13 @@ dummy_calibration = {
     "molecule_name": "Methanol",
     "concentrations": [0.2, 0.4, 0.6, 0.8, 1.0],
     "wavelength": 500.0,
-    "conc_unit": mM,
+    "conc_unit": "mmol/l",
     "signals": [0, 1, 2, 3, 4],
     "cutoff": 3,
 }
 
-mock_standard = MagicMock(spec=Standard)
-mock_model = MagicMock(spec=CalibrationModel)
+mock_standard = MagicMock(spec=Calibration)
+mock_model = MagicMock(spec=Calibration)
 mock_sample = MagicMock(spec=Sample)
 
 
@@ -108,7 +107,13 @@ def test_calculate_concentrations(calibrator):
     model = CalibrationModel(
         name="test_model",
         molecule_id="s1",
+        pubchem_cid=887,
+        molecule_name="Methanol",
+        ph=7.4,
+        temperature=25,
+        temp_unit="C",
         signal_law="s1 * a + b",
+        conc_unit="mmol/l",
         parameters=[
             Parameter(
                 **{
@@ -139,7 +144,7 @@ def test_calculate_concentrations(calibrator):
 
 def test_create_standard(calibrator):
     ph = 3.3
-    temperature_unit = C
+    temperature_unit = "C"
     temperature = 25.1
     retention_time = 3.4
     model = calibrator.models[0]
@@ -158,11 +163,14 @@ def test_create_standard(calibrator):
     assert standard.molecule_name == calibrator.molecule_name
     assert standard.samples[0].concentration == 0.2
     assert standard.wavelength == 500.0
-    assert standard.samples[0].conc_unit == mM
+    assert standard.samples[0].conc_unit.name == "mmol / l"
+    assert standard.samples[0].conc_unit.base_units[0].exponent == 1
+    assert standard.samples[0].conc_unit.base_units[1].exponent == -1
+
     assert standard.retention_time == retention_time
     assert standard.ph == ph
     assert standard.temperature == temperature
-    assert standard.temp_unit == temperature_unit
+    assert standard.temp_unit.name == temperature_unit
 
 
 def test_get_free_symbols(calibrator):
@@ -190,7 +198,7 @@ def test_read_excel():
         path="tests/test_data/cal_test.xlsx",
         molecule_id="s1",
         molecule_name="Methanol",
-        conc_unit=mM,
+        conc_unit="mmol/l",
         pubchem_cid=887,
         wavelength=500.0,
         skip_rows=1,
@@ -198,7 +206,7 @@ def test_read_excel():
 
     assert cal.molecule_id == "s1"
     assert cal.molecule_name == "Methanol"
-    assert cal.conc_unit == mM
+    assert cal.conc_unit.name == "mmol / l"
     assert cal.wavelength == 500.0
     assert cal.concentrations == [1, 1, 2, 2, 3, 3, 4, 4]
     assert cal.signals == [22.0, 23.0, 33.0, 34.0, 44.0, 45.0, 55.0, 56.0]
@@ -206,7 +214,7 @@ def test_read_excel():
 
 def test_from_standard():
     with open("tests/test_data/abts_standard.json") as f:
-        standard = Standard(**json.load(f))
+        standard = Calibration(**json.load(f))
 
     cal = Calibrator.from_standard(standard)
 

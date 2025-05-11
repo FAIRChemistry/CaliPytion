@@ -1,3 +1,35 @@
+"""
+This file contains Pydantic model definitions for data validation.
+
+Pydantic is a data validation library that uses Python type annotations.
+It allows you to define data models with type hints that are validated
+at runtime while providing static type checking.
+
+Usage example:
+```python
+from my_model import MyModel
+
+# Validates data at runtime
+my_model = MyModel(name="John", age=30)
+
+# Type-safe - my_model has correct type hints
+print(my_model.name)
+
+# Will raise error if validation fails
+try:
+    MyModel(name="", age=30)
+except ValidationError as e:
+    print(e)
+```
+
+For more information see:
+https://docs.pydantic.dev/
+
+WARNING: This is an auto-generated file.
+Do not edit directly - any changes will be overwritten.
+"""
+
+
 ## This is a generated file. Do not modify it manually!
 
 from __future__ import annotations
@@ -6,6 +38,7 @@ from enum import Enum
 from typing import Generic, Optional, TypeVar
 from uuid import uuid4
 
+from mdmodels.units.annotation import UnitDefinitionAnnot
 from pydantic import BaseModel, ConfigDict, Field
 
 # Filter Wrapper definition used to filter a list of objects
@@ -72,9 +105,9 @@ def validate_prefix(term: str | dict, prefix: str):
 # Model Definitions
 
 
-class Standard(BaseModel):
+class Calibration(BaseModel):
     model_config: ConfigDict = ConfigDict(  # type: ignore
-        validate_assigment=True,
+        validate_assignment=True,
     )  # type: ignore
 
     molecule_id: str
@@ -82,27 +115,27 @@ class Standard(BaseModel):
     molecule_name: str
     ph: float
     temperature: float
-    temp_unit: UnitDefinition
-    retention_time: Optional[float] = Field(default=None)
-    wavelength: Optional[float] = Field(default=None)
+    temp_unit: UnitDefinitionAnnot
+    retention_time: Optional[Optional[float]] = Field(default=None)
+    wavelength: Optional[Optional[float]] = Field(default=None)
     samples: list[Sample] = Field(default_factory=list)
-    result: Optional[CalibrationModel] = Field(default=None)
+    result: Optional[Optional[CalibrationModel]] = Field(default=None)
 
     # JSON-LD fields
     ld_id: str = Field(
         serialization_alias="@id",
-        default_factory=lambda: "calipy:Standard/" + str(uuid4()),
+        default_factory=lambda: "md:Calibration/" + str(uuid4()),
     )
     ld_type: list[str] = Field(
         serialization_alias="@type",
         default_factory=lambda: [
-            "calipy:Standard",
+            "md:Calibration",
         ],
     )
     ld_context: dict[str, str | dict] = Field(
         serialization_alias="@context",
         default_factory=lambda: {
-            "calipy": "https://github.com/FAIRChemistry/CaliPytion",
+            "md": "https://github.com/FAIRChemistry/CaliPytion",
         },
     )
 
@@ -186,7 +219,7 @@ class Standard(BaseModel):
     def add_to_samples(
         self,
         concentration: float,
-        conc_unit: UnitDefinition,
+        conc_unit: UnitDefinitionAnnot,
         signal: float,
         **kwargs,
     ):
@@ -206,28 +239,27 @@ class Standard(BaseModel):
 
 class Sample(BaseModel):
     model_config: ConfigDict = ConfigDict(  # type: ignore
-        validate_assigment=True,
+        validate_assignment=True,
     )  # type: ignore
 
     concentration: float
-    conc_unit: UnitDefinition
+    conc_unit: UnitDefinitionAnnot
     signal: float
 
     # JSON-LD fields
     ld_id: str = Field(
-        serialization_alias="@id",
-        default_factory=lambda: "calipy:Sample/" + str(uuid4()),
+        serialization_alias="@id", default_factory=lambda: "md:Sample/" + str(uuid4())
     )
     ld_type: list[str] = Field(
         serialization_alias="@type",
         default_factory=lambda: [
-            "calipy:Sample",
+            "md:Sample",
         ],
     )
     ld_context: dict[str, str | dict] = Field(
         serialization_alias="@context",
         default_factory=lambda: {
-            "calipy": "https://github.com/FAIRChemistry/CaliPytion",
+            "md": "https://github.com/FAIRChemistry/CaliPytion",
         },
     )
 
@@ -299,32 +331,32 @@ class Sample(BaseModel):
 
 class CalibrationModel(BaseModel):
     model_config: ConfigDict = ConfigDict(  # type: ignore
-        validate_assigment=True,
+        validate_assignment=True,
     )  # type: ignore
 
     name: str
-    molecule_id: Optional[str] = Field(default=None)
-    signal_law: Optional[str] = Field(default=None)
+    molecule_id: Optional[Optional[str]] = Field(default=None)
+    signal_law: Optional[Optional[str]] = Field(default=None)
     parameters: list[Parameter] = Field(default_factory=list)
-    was_fitted: bool = False
-    calibration_range: Optional[CalibrationRange] = Field(default=None)
-    statistics: Optional[FitStatistics] = Field(default=None)
+    was_fitted: Optional[bool] = False
+    calibration_range: Optional[Optional[CalibrationRange]] = Field(default=None)
+    statistics: Optional[Optional[FitStatistics]] = Field(default=None)
 
     # JSON-LD fields
     ld_id: str = Field(
         serialization_alias="@id",
-        default_factory=lambda: "calipy:CalibrationModel/" + str(uuid4()),
+        default_factory=lambda: "md:CalibrationModel/" + str(uuid4()),
     )
     ld_type: list[str] = Field(
         serialization_alias="@type",
         default_factory=lambda: [
-            "calipy:CalibrationModel",
+            "md:CalibrationModel",
         ],
     )
     ld_context: dict[str, str | dict] = Field(
         serialization_alias="@context",
         default_factory=lambda: {
-            "calipy": "https://github.com/FAIRChemistry/CaliPytion",
+            "md": "https://github.com/FAIRChemistry/CaliPytion",
         },
     )
 
@@ -434,7 +466,7 @@ class CalibrationModel(BaseModel):
 
 class CalibrationRange(BaseModel):
     model_config: ConfigDict = ConfigDict(  # type: ignore
-        validate_assigment=True,
+        validate_assignment=True,
     )  # type: ignore
 
     conc_lower: float
@@ -445,18 +477,18 @@ class CalibrationRange(BaseModel):
     # JSON-LD fields
     ld_id: str = Field(
         serialization_alias="@id",
-        default_factory=lambda: "calipy:CalibrationRange/" + str(uuid4()),
+        default_factory=lambda: "md:CalibrationRange/" + str(uuid4()),
     )
     ld_type: list[str] = Field(
         serialization_alias="@type",
         default_factory=lambda: [
-            "calipy:CalibrationRange",
+            "md:CalibrationRange",
         ],
     )
     ld_context: dict[str, str | dict] = Field(
         serialization_alias="@context",
         default_factory=lambda: {
-            "calipy": "https://github.com/FAIRChemistry/CaliPytion",
+            "md": "https://github.com/FAIRChemistry/CaliPytion",
         },
     )
 
@@ -528,29 +560,29 @@ class CalibrationRange(BaseModel):
 
 class FitStatistics(BaseModel):
     model_config: ConfigDict = ConfigDict(  # type: ignore
-        validate_assigment=True,
+        validate_assignment=True,
     )  # type: ignore
 
-    aic: Optional[float] = Field(default=None)
-    bic: Optional[float] = Field(default=None)
-    r2: Optional[float] = Field(default=None)
-    rmsd: Optional[float] = Field(default=None)
+    aic: Optional[Optional[float]] = Field(default=None)
+    bic: Optional[Optional[float]] = Field(default=None)
+    r2: Optional[Optional[float]] = Field(default=None)
+    rmsd: Optional[Optional[float]] = Field(default=None)
 
     # JSON-LD fields
     ld_id: str = Field(
         serialization_alias="@id",
-        default_factory=lambda: "calipy:FitStatistics/" + str(uuid4()),
+        default_factory=lambda: "md:FitStatistics/" + str(uuid4()),
     )
     ld_type: list[str] = Field(
         serialization_alias="@type",
         default_factory=lambda: [
-            "calipy:FitStatistics",
+            "md:FitStatistics",
         ],
     )
     ld_context: dict[str, str | dict] = Field(
         serialization_alias="@context",
         default_factory=lambda: {
-            "calipy": "https://github.com/FAIRChemistry/CaliPytion",
+            "md": "https://github.com/FAIRChemistry/CaliPytion",
         },
     )
 
@@ -622,31 +654,31 @@ class FitStatistics(BaseModel):
 
 class Parameter(BaseModel):
     model_config: ConfigDict = ConfigDict(  # type: ignore
-        validate_assigment=True,
+        validate_assignment=True,
     )  # type: ignore
 
-    symbol: Optional[str] = Field(default=None)
-    value: Optional[float] = Field(default=None)
-    init_value: Optional[float] = Field(default=None)
-    stderr: Optional[float] = Field(default=None)
-    lower_bound: Optional[float] = Field(default=None)
-    upper_bound: Optional[float] = Field(default=None)
+    symbol: Optional[Optional[str]] = Field(default=None)
+    value: Optional[Optional[float]] = Field(default=None)
+    init_value: Optional[Optional[float]] = Field(default=None)
+    stderr: Optional[Optional[float]] = Field(default=None)
+    lower_bound: Optional[Optional[float]] = Field(default=None)
+    upper_bound: Optional[Optional[float]] = Field(default=None)
 
     # JSON-LD fields
     ld_id: str = Field(
         serialization_alias="@id",
-        default_factory=lambda: "calipy:Parameter/" + str(uuid4()),
+        default_factory=lambda: "md:Parameter/" + str(uuid4()),
     )
     ld_type: list[str] = Field(
         serialization_alias="@type",
         default_factory=lambda: [
-            "calipy:Parameter",
+            "md:Parameter",
         ],
     )
     ld_context: dict[str, str | dict] = Field(
         serialization_alias="@context",
         default_factory=lambda: {
-            "calipy": "https://github.com/FAIRChemistry/CaliPytion",
+            "md": "https://github.com/FAIRChemistry/CaliPytion",
         },
     )
 
@@ -716,30 +748,30 @@ class Parameter(BaseModel):
         self.ld_type.append(term)
 
 
-class UnitDefinition(BaseModel):
+class UnitDefinitionAnnot(BaseModel):
     model_config: ConfigDict = ConfigDict(  # type: ignore
-        validate_assigment=True,
+        validate_assignment=True,
     )  # type: ignore
 
-    id: Optional[str] = Field(default=None)
-    name: Optional[str] = Field(default=None)
+    id: Optional[Optional[str]] = Field(default=None)
+    name: Optional[Optional[str]] = Field(default=None)
     base_units: list[BaseUnit] = Field(default_factory=list)
 
     # JSON-LD fields
     ld_id: str = Field(
         serialization_alias="@id",
-        default_factory=lambda: "calipy:UnitDefinition/" + str(uuid4()),
+        default_factory=lambda: "md:UnitDefinitionAnnot/" + str(uuid4()),
     )
     ld_type: list[str] = Field(
         serialization_alias="@type",
         default_factory=lambda: [
-            "calipy:UnitDefinition",
+            "md:UnitDefinitionAnnot",
         ],
     )
     ld_context: dict[str, str | dict] = Field(
         serialization_alias="@context",
         default_factory=lambda: {
-            "calipy": "https://github.com/FAIRChemistry/CaliPytion",
+            "md": "https://github.com/FAIRChemistry/CaliPytion",
         },
     )
 
@@ -845,29 +877,28 @@ class UnitDefinition(BaseModel):
 
 class BaseUnit(BaseModel):
     model_config: ConfigDict = ConfigDict(  # type: ignore
-        validate_assigment=True,
+        validate_assignment=True,
     )  # type: ignore
 
     kind: UnitType
     exponent: int
-    multiplier: Optional[float] = Field(default=None)
-    scale: Optional[float] = Field(default=None)
+    multiplier: Optional[Optional[float]] = Field(default=None)
+    scale: Optional[Optional[float]] = Field(default=None)
 
     # JSON-LD fields
     ld_id: str = Field(
-        serialization_alias="@id",
-        default_factory=lambda: "calipy:BaseUnit/" + str(uuid4()),
+        serialization_alias="@id", default_factory=lambda: "md:BaseUnit/" + str(uuid4())
     )
     ld_type: list[str] = Field(
         serialization_alias="@type",
         default_factory=lambda: [
-            "calipy:BaseUnit",
+            "md:BaseUnit",
         ],
     )
     ld_context: dict[str, str | dict] = Field(
         serialization_alias="@context",
         default_factory=lambda: {
-            "calipy": "https://github.com/FAIRChemistry/CaliPytion",
+            "md": "https://github.com/FAIRChemistry/CaliPytion",
         },
     )
 
@@ -972,3 +1003,17 @@ class UnitType(Enum):
     VOLT = "volt"
     WATT = "watt"
     WEBER = "weber"
+
+
+# Rebuild all the classes within this file
+for cls in [
+    Calibration,
+    Sample,
+    CalibrationModel,
+    CalibrationRange,
+    FitStatistics,
+    Parameter,
+    UnitDefinitionAnnot,
+    BaseUnit,
+]:
+    cls.model_rebuild()
