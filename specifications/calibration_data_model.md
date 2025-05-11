@@ -12,9 +12,6 @@ This data model structures data of standard measurements of a molecule.
 
 The Calibration contains information on the molecule for which the calibration was performed, its measurements alongside measurement conditions, and the fitted calibration model.
 
-- **calibration_id**
-  - Type: string
-  - Description: Unique identifier of the calibration.
 - **molecule_id**
   - Type: string
   - Description: Short ID how the molecule should be referenced in equations. E.g., s1.
@@ -31,7 +28,7 @@ The Calibration contains information on the molecule for which the calibration w
   - Type: float
   - Description: Temperature during calibration.
 - **temp_unit**
-  - Type: UnitDefinition
+  - Type: UnitDefinitionAnnot
   - Description: Temperature unit.
 - retention_time
   - Type: float
@@ -54,7 +51,7 @@ A Sample describes individual measured signal-concentration pairs of a molecule.
   - Type: float
   - Description: Concentration of the molecule.
 - **conc_unit**
-  - Type: UnitDefinition
+  - Type: UnitDefinitionAnnot
   - Description: Concentration unit.
 - **signal**
   - Type: float

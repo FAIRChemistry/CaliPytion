@@ -15,13 +15,12 @@ Units are handled as predefined objects which can be imported from the `calipyti
 
 ```python
 from calipytion import Calibrator
-from calipytion.units import mM
 
 calibrator = Calibrator(
     molecule_id="s0",
     pubchem_cid=439153,
     molecule_name="NADH",
-    conc_unit=mM,
+    conc_unit="mmol / l",
     concentrations=[0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5],
     signals=[0.02, 0.509, 1.076, 1.534, 2.008, 2.482, 2.898, 3.176],
     wavelength=420,
@@ -35,24 +34,17 @@ Alternatively, the calibrator can be initialized by loading the data from a shee
 
 ```python
 from calipytion import Calibrator
-from calipytion.units import mM
 
 calibrator = Calibrator.from_excel(
     path="data.xlsx",
     molecule_id="s0",
     molecule_name="NADH",
-    conc_unit=mM,
+    conc_unit="mmol / l",
     wavelength=420,
     skip_rows=1
 )
 ```
-#### From `.json` standard
 
-Natively the `Calibrator` alongside a fitted calibration model is serialized as a `Standard` JSON file. This file can be read to reuse a calibrator, using the `from_json` method. 
-
-```python
-calibrator = Calibrator.from_json("data/abts_standard.json")
-```
 
 
 ### Adding calibration models
@@ -146,12 +138,11 @@ print(concentrations)
 Finally, the data of the calibrator can be enriched with additional information on the calibrated molecule and the measurement conditions to form a valid `Standard`. This is done by using the `create_standard` method. This method expects a `ph`, `temperature`, `temp_unit`, as well as the chosen `model`. Furthermore, the `retention_time` can be provided to further characterize the context of the calibration. 
 
 ```python
-from calipytion.units import C
 
 standard = calibrator.create_standard(
     ph=7.4,
     temperature=25,
-    temp_unit=C,
+    temp_unit="C",
     retention_time=7.53
 )
 

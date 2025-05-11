@@ -16,17 +16,17 @@ This page provides comprehensive information about the structure and components 
         calibrationrange(CalibrationRange)
         fitstatistics(FitStatistics)
         parameter(Parameter)
-        unitdefinition(UnitDefinition)
+        unitdefinition(UnitDefinitionAnnot)
         baseunit(BaseUnit)
         unittype(UnitType)
-        standard(Standard) --> unitdefinition(UnitDefinition)
+        standard(Standard) --> unitdefinition(UnitDefinitionAnnot)
         standard(Standard) --> sample(Sample)
         standard(Standard) --> calibrationmodel(CalibrationModel)
-        sample(Sample) --> unitdefinition(UnitDefinition)
+        sample(Sample) --> unitdefinition(UnitDefinitionAnnot)
         calibrationmodel(CalibrationModel) --> parameter(Parameter)
         calibrationmodel(CalibrationModel) --> calibrationrange(CalibrationRange)
         calibrationmodel(CalibrationModel) --> fitstatistics(FitStatistics)
-        unitdefinition(UnitDefinition) --> baseunit(BaseUnit)
+        unitdefinition(UnitDefinitionAnnot) --> baseunit(BaseUnit)
         baseunit(BaseUnit) --> unittype(UnitType)
 
         click standard "#standard" "Go to Standard"
@@ -35,7 +35,7 @@ This page provides comprehensive information about the structure and components 
         click calibrationrange "#calibrationrange" "Go to CalibrationRange"
         click fitstatistics "#fitstatistics" "Go to FitStatistics"
         click parameter "#parameter" "Go to Parameter"
-        click unitdefinition "#unitdefinition" "Go to UnitDefinition"
+        click unitdefinition "#unitdefinition" "Go to UnitDefinitionAnnot"
         click baseunit "#baseunit" "Go to BaseUnit"
         click unittype "#unittype" "Go to UnitType"
     ```
@@ -62,7 +62,7 @@ __temperature__* `float`
 - Temperature during calibration.
 
 
-__temp_unit__* [`UnitDefinition`](#unitdefinition)
+__temp_unit__* [`UnitDefinitionAnnot`](#unitdefinition)
 
 - Temperature unit.
 
@@ -102,7 +102,7 @@ __concentration__* `float`
 - Concentration of the molecule.
 
 
-__conc_unit__* [`UnitDefinition`](#unitdefinition)
+__conc_unit__* [`UnitDefinitionAnnot`](#unitdefinition)
 
 - Concentration unit.
 
@@ -240,7 +240,7 @@ __upper_bound__ `float`
 
 ------
 
-### UnitDefinition
+### UnitDefinitionAnnot
 Represents a unit definition that is based on the SI unit system.
 
 __id__ `string`

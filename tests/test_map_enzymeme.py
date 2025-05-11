@@ -5,8 +5,6 @@ import pyenzyme as pe
 from pytest import approx
 
 from calipytion import Calibrator
-from calipytion.units import celsius as cal_celsius
-from calipytion.units import mM as cal_mM
 
 # create a mock calibrator
 cal_data = {
@@ -15,13 +13,13 @@ cal_data = {
     "pubchem_cid": 5893,
     "signals": [0, 1, 2, 3, 4],
     "concentrations": [0, 10, 20, 30, 40],
-    "conc_unit": cal_mM,
+    "conc_unit": "mmol/l",
 }
 
 standard_params = {
     "ph": 7.4,
     "temperature": 25,
-    "temp_unit": cal_celsius,
+    "temp_unit": "C",
 }
 
 

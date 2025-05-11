@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import sympy as sp
+from mdmodels.units.annotation import UnitDefinitionAnnot
 from plotly import graph_objects as go
 from plotly.subplots import make_subplots
 from pydantic import BaseModel, Field, model_validator
@@ -18,14 +19,12 @@ from rich.console import Console
 from rich.table import Table
 
 from calipytion.model import (
+    Calibration,
     CalibrationModel,
     CalibrationRange,
-    Standard,
-    UnitDefinition,
 )
 from calipytion.tools.fitter import Fitter
 from calipytion.tools.utility import pubchem_request_molecule_name
-from calipytion.units import C
 
 LOGGER = logging.getLogger(__name__)
 
@@ -65,7 +64,7 @@ class Calibrator(BaseModel):
         default=None,
     )
 
-    conc_unit: UnitDefinition = Field(
+    conc_unit: UnitDefinitionAnnot = Field(
         description="Concentration unit",
     )
 
@@ -85,7 +84,7 @@ class Calibrator(BaseModel):
         ),
     )
 
-    standard: Standard | None = Field(
+    standard: Calibration | None = Field(
         default=None,
         description="Result oriented object, representing the data and the chosen model.",
     )
@@ -333,7 +332,7 @@ class Calibrator(BaseModel):
         cls,
         path: str,
         molecule_id: str,
-        conc_unit: UnitDefinition,
+        conc_unit: UnitDefinitionAnnot,
         pubchem_cid: int,
         concentration_column_name: str,
         molecule_name: str,
@@ -345,7 +344,7 @@ class Calibrator(BaseModel):
         Args:
             path (str): Path to the CSV file.
             molecule_id (str): Unique identifier of the molecule.
-            conc_unit (UnitDefinition): Concentration unit.
+            conc_unit (UnitDefinitionAnnot): Concentration unit.
             pubchem_cid (int): PubChem Compound Identifier.
             concentration_column_name (str): Name of the column containing the concentrations.
             molecule_name (str, optional): Name of the molecule. Defaults to None.
@@ -382,7 +381,7 @@ class Calibrator(BaseModel):
         cls,
         path: str,
         molecule_id: str,
-        conc_unit: UnitDefinition,
+        conc_unit: UnitDefinitionAnnot,
         pubchem_cid: int,
         molecule_name: str | None = None,
         cutoff: Optional[float] = None,
@@ -398,7 +397,7 @@ class Calibrator(BaseModel):
             path (str): Path to the Excel file.
             molecule_id (str): Unique identifier of the molecule.
             molecule_name (str): Name of the molecule.
-            conc_unit (UnitDefinition): Concentration unit.
+            conc_unit (UnitDefinitionAnnot): Concentration unit.
             pubchem_cid (int): PubChem Compound Identifier.
             cutoff (float, optional): Cutoff value for the signals. Defaults to None.
             wavelength (float, optional): Wavelength of the measurement. Defaults to None.
@@ -478,20 +477,20 @@ class Calibrator(BaseModel):
         import json
 
         with open(path, "r") as file:
-            standard = Standard(**json.load(file))
+            standard = Calibration(**json.load(file))
 
         return cls.from_standard(standard, cutoff)
 
     @classmethod
     def from_standard(
         cls,
-        standard: Standard,
+        standard: Calibration,
         cutoff: float | None = None,
     ) -> Calibrator:
         """Initialize the Calibrator object from a Standard object.
 
         Args:
-            standard (Standard): The Standard object to be used for calibration.
+            standard (Calibration): The Calibration object to be used for calibration.
             cutoff (float | None, optional): Whether to apply a cutoff value to the signals.
                 This filters out all signals and corresponding concentration above the
                 cutoff value. Defaults to None.
@@ -513,12 +512,12 @@ class Calibrator(BaseModel):
         # verify that all samples have the same concentration unit
         if not all(
             [
-                sample.conc_unit == standard.samples[0].conc_unit
+                sample.conc_unit.name == standard.samples[0].conc_unit.name
                 for sample in standard.samples
             ]
         ):
             raise ValueError("All samples must have the same concentration unit")
-        conc_unit = standard.samples[0].conc_unit
+        conc_unit = standard.samples[0].conc_unit.name
 
         if standard.result:
             models = [standard.result]
@@ -839,9 +838,9 @@ class Calibrator(BaseModel):
         model: CalibrationModel,
         ph: float,
         temperature: float,
-        temp_unit: UnitDefinition = C,
+        temp_unit: UnitDefinitionAnnot = "C",  # type: ignore
         retention_time: Optional[float] = None,
-    ) -> Standard:
+    ) -> Calibration:
         """Creates a standard object with the given model, pH, and temperature.
 
         Args:
@@ -855,13 +854,13 @@ class Calibrator(BaseModel):
             ValueError: If the model has not been fitted yet.
 
         Returns:
-            Standard: The created standard object.
+            Calibration: The created Calibration object.
         """
 
         if not model.was_fitted:
             raise ValueError("Model has not been fitted yet. Run 'fit_models' first.")
 
-        standard = Standard(
+        standard = Calibration(
             molecule_id=self.molecule_id,
             pubchem_cid=self.pubchem_cid,
             molecule_name=self.molecule_name,
@@ -877,7 +876,7 @@ class Calibrator(BaseModel):
 
         for conc, signal in zip(self.concentrations, self.signals):
             standard.add_to_samples(
-                concentration=conc, signal=signal, conc_unit=self.conc_unit
+                concentration=conc, signal=signal, conc_unit=self.conc_unit.name
             )
 
         self.standard = standard
@@ -984,48 +983,3 @@ class Calibrator(BaseModel):
             plt.show()
 
         return fig
-
-
-if __name__ == "__main__":
-    from calipytion.units import uM
-
-    # initialize the calibrator
-    calibrator = Calibrator.from_csv(
-        path="/Users/max/Documents/GitHub/Range-2024/data/abts-calibration.csv",
-        molecule_id="s0",
-        molecule_name="ABTS",
-        pubchem_cid=5360881,
-        cutoff=3.2,
-        wavelength=340,
-        conc_unit=uM,
-        concentration_column_name="ABTS (µmol/l)",
-    )
-
-    # define the models to be fitted as potential signal laws
-    calibrator.models = []
-
-    linear = calibrator.add_model(
-        name="linear",
-        signal_law="a * s0 + b",
-    )
-    quadratic = calibrator.add_model(
-        name="quadratic",
-        signal_law="a * s0**2 + b * s0 + c",
-    )
-    cubic = calibrator.add_model(
-        name="cubic",
-        signal_law="a * s0**3 + b * s0**2 + c * s0 + d",
-    )
-
-    # fit the models
-    calibrator.fit_models()
-    # calibrator.visualize()
-    # calibrator.visualize_static()
-
-    calibrator.create_standard(
-        linear,
-        ph=7.4,
-        temperature=25,
-        temp_unit=C,
-    )
-    animl = calibrator.to_animl()
