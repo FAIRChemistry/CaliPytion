@@ -40,7 +40,6 @@ pip install git+https://github.com/FAIRChemistry/CaliPytion.git
 
 ```python 
 from calipytion import Calibrator
-from calipytion.units import mM
 
 # standard data
 concentrations = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5]
@@ -53,7 +52,7 @@ unknowns = [0.3, 1, 1.345]
 calibrator = Calibrator(
     molecule_id="s0",
     molecule_name="ABTS",
-    conc_unit=mM,
+    conc_unit="mmol / l",
     concentrations=concentrations,
     signals=absorption,
 )
