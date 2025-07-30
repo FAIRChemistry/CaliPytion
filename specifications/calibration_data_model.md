@@ -28,7 +28,7 @@ The Calibration contains information on the molecule for which the calibration w
   - Type: float
   - Description: Temperature during calibration.
 - **temp_unit**
-  - Type: UnitDefinitionAnnot
+  - Type: UnitDefinition
   - Description: Temperature unit.
 - retention_time
   - Type: float
@@ -51,7 +51,7 @@ A Sample describes individual measured signal-concentration pairs of a molecule.
   - Type: float
   - Description: Concentration of the molecule.
 - **conc_unit**
-  - Type: UnitDefinitionAnnot
+  - Type: UnitDefinition
   - Description: Concentration unit.
 - **signal**
   - Type: float
