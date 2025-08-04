@@ -7,7 +7,7 @@
 ## Overview
 
 
-CaliPytion is a Python package for the creation, application, and documentation of calibration models for concentration calculations from a measured standard. This package allows for comparing different calibration models and selecting the best one based on various statistical metrics like R<sup>2</sup>, AIC, or RMSD. The selected model can then calculate the concentration of unknown samples from their measured signals. Furthermore, the calibration standard containing the calibration model and information on the used substance and measurement conditions can be exported in JSON and [AnIML](https://www.animl.org/) format for reuse and documentation.
+CaliPytion is a Python package for the creation, application, and documentation of calibration models for concentration calculations from a measured standard. This package allows for comparing different calibration models and selecting the best one based on various statistical metrics like R<sup>2</sup>, AIC, or RMSD. The selected model can then calculate the concentration of unknown samples from their measured signals. Furthermore, the calibration standard containing the calibration model and information on the used substance and measurement conditions can be exported in JSON and AnIML format for reuse and documentation.
 
 ## Key Functionalities
 
