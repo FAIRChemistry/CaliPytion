@@ -2,7 +2,7 @@
 
 [![Documentation](https://img.shields.io/badge/Documentation-Online-blue.svg)](https://fairchemistry.github.io/CaliPytion/)
 [![Tests](https://github.com/FAIRChemistry/CaliPytion/actions/workflows/tests.yaml/badge.svg)](https://github.com/FAIRChemistry/CaliPytion/actions/workflows/tests.yaml)
-[![PyPI version](https://badge.fury.io/py/CaliPytion.svg)](https://badge.fury.io/py/CaliPytion)
+![PyPI - Version](https://img.shields.io/pypi/v/calipytion)
 
 ## Overview
 
