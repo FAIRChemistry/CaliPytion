@@ -27,7 +27,7 @@ Calibration models are stored together with the standard data. Constituting a co
 CaliPytion can be installed via pip:
 
 ```bash
-pip install calipytion # 🚧 not yet available
+pip install calipytion
 ```
 
 or directly from the source code:
