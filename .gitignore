@@ -168,3 +168,4 @@ cython_debug/
 .test_example.py
 .python-version
 .ruff_cache/
+uv.lock
