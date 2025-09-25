@@ -1,6 +1,6 @@
 [project]
 name = "calipytion"
-version = "1.0.1"
+version = "1.0.2"
 description = "Tool for creating standard curves and concentration calculations."
 authors = [{ name = "haeussma", email = "83341109+haeussma@users.noreply.github.com" }]
 license = {text = "MIT"}
@@ -12,8 +12,7 @@ dependencies = [
     "matplotlib>=3.8.0",
     "mdmodels>=0.2.0",
     "nbformat>=5.0.0",
-    'numpy>=1.26,<2; python_version < "3.13"',
-    'numpy>=2; python_version >= "3.13"',
+    "numpy>=2.1.0",
     "pandas[excel]>=2.0,<3.0",
     "plotly>=6.3.0",
     "pydantic>=2.0.0",
